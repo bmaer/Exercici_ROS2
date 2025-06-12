@@ -18,11 +18,13 @@ from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
 from std_msgs.msg import String
 from turtlesim.srv import SetPen
+from functools import partial
 
 class MinimalPublisher(Node):
 
     def __init__(self):
         super().__init__('minimal_publisher')
+        self.node = Node
         self.publisher_ = self.create_publisher(Twist, '/turtle1/cmd_vel', 10) #create_publisher(<type>, <nom_topic>, <buffer>)
         self.subscription = self.create_subscription(Pose, '/turtle1/pose', self.listener_callback, 10)
         timer_period = 0.5  # seconds
@@ -43,7 +45,23 @@ class MinimalPublisher(Node):
 
         #self.get_logger().info('Publishing: "%s"' % msg1.data)
 
-    def set_Pen_Serice(self, r, g, b, off):
+    def set_Pen_Service(self, r, g, b, off, width):
+        client = self.create_client(SetPen, f"/turtle1/set_pen")
+        while not client.wait_for_service(1.0):
+            self.node.get_logger().warn("Waiting for service...")
+
+        request = SetPen.Request()
+        request.r = r
+        request.g = g
+        request.b = b
+        request.width = width
+        request.off = off
+
+        future = client.call_async(request)
+        future.add_done_callback(partial(self.callback_set_pen))
+    def callback_set_pen(self, future):
+
+        response = future.result()
 
 
     def listener_callback(self, msg):
@@ -65,12 +83,14 @@ def main(args=None):
     rclpy.init(args=args)
 
     minimal_publisher = MinimalPublisher()
+    minimal_publisher.set_Pen_Service(0,0,0, 1, 0)
     while(True):
         if(estate == 0):
             minimal_publisher.setXY1(1.0, 1.0)
             estate = 1
 
         if(estate == 1 and (minimal_publisher.getPX() < 1.3 and minimal_publisher.getPX() >= 1.0 and minimal_publisher.getPY() < 1.3 and minimal_publisher.getPY() >= 1.0)):
+            minimal_publisher.set_Pen_Service(255, 255, 0, 0, 5)
             estate = 2
             minimal_publisher.setXY1(4.5,4.5)
         if (estate == 2):
