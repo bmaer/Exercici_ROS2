@@ -48,7 +48,7 @@ class MinimalPublisher(Node):
     def set_Pen_Service(self, r, g, b, off, width):
         client = self.create_client(SetPen, f"/turtle1/set_pen")
         while not client.wait_for_service(1.0):
-            self.node.get_logger().warn("Waiting for service...")
+            self.node.get_logger(self).warn("Waiting for service...")
 
         request = SetPen.Request()
         request.r = r
@@ -84,48 +84,74 @@ def main(args=None):
 
     minimal_publisher = MinimalPublisher()
     minimal_publisher.set_Pen_Service(0,0,0, 1, 0)
-    while(True):
+    while(estate != 12):
         if(estate == 0):
             minimal_publisher.setXY1(1.0, 1.0)
             estate = 1
 
-        if(estate == 1 and (minimal_publisher.getPX() < 1.3 and minimal_publisher.getPX() >= 1.0 and minimal_publisher.getPY() < 1.3 and minimal_publisher.getPY() >= 1.0)):
+        if(estate == 1 and (minimal_publisher.getPX() < 1.1 and minimal_publisher.getPX() >= 0.9 and minimal_publisher.getPY() < 1.1 and minimal_publisher.getPY() >= 0.9)):
             minimal_publisher.set_Pen_Service(255, 255, 0, 0, 5)
             estate = 2
             minimal_publisher.setXY1(4.5,4.5)
         if (estate == 2):
             minimal_publisher.setXY1(4.5, 4.5)
-        if(estate == 2 and (minimal_publisher.getPX() < 4.7 and minimal_publisher.getPX() >= 4.5 and minimal_publisher.getPY() < 4.7 and minimal_publisher.getPY() >= 4.5)):
+        if(estate == 2 and (minimal_publisher.getPX() < 4.6 and minimal_publisher.getPX() >= 4.4 and minimal_publisher.getPY() < 4.6 and minimal_publisher.getPY() >= 4.4)):
             estate = 3
-            minimal_publisher.setXY1(10.0, 1.0)
+            minimal_publisher.setXY1(8.0, 1.0)
         if (estate == 3):
-            minimal_publisher.setXY1(10.0, 1.0)
+            minimal_publisher.setXY1(8.0, 1.0)
 
-        if (estate == 3 and (minimal_publisher.getPX() < 10.2 and minimal_publisher.getPX() >= 10.0 and minimal_publisher.getPY() < 1.2 and minimal_publisher.getPY() >= 1.0)):
+        if (estate == 3 and (minimal_publisher.getPX() < 8.1 and minimal_publisher.getPX() >= 7.9 and minimal_publisher.getPY() < 1.1 and minimal_publisher.getPY() >= 0.9)):
             estate = 4
-            minimal_publisher.setXY1(7.75, 2.25)
+            minimal_publisher.setXY1(6.25, 2.75)
         if (estate == 4):
-            minimal_publisher.setXY1(7.75, 2.25)
-        if (estate == 4 and (minimal_publisher.getPX() < 7.95 and minimal_publisher.getPX() >= 7.75 and minimal_publisher.getPY() < 2.45 and minimal_publisher.getPY() >= 2.25)):
+            minimal_publisher.setXY1(6.25, 2.75)
+        if (estate == 4 and (minimal_publisher.getPX() < 6.35 and minimal_publisher.getPX() >= 6.15 and minimal_publisher.getPY() < 2.85 and minimal_publisher.getPY() >= 2.65)):
             estate = 5
             minimal_publisher.setXY1(4.5, 1.0)
         if (estate == 5):
             minimal_publisher.setXY1(4.5, 1.0)
-        if (estate == 5 and (minimal_publisher.getPX() < 4.7 and minimal_publisher.getPX() >= 4.5 and minimal_publisher.getPY() < 1.2 and minimal_publisher.getPY() >= 1.0)):
+        if (estate == 5 and (minimal_publisher.getPX() < 4.6 and minimal_publisher.getPX() >= 4.4 and minimal_publisher.getPY() < 1.1 and minimal_publisher.getPY() >= 0.9)):
             estate = 6
-            minimal_publisher.setXY1(10.0, 1.0)
+            minimal_publisher.setXY1(8.0, 1.0)
         if (estate == 6):
-            minimal_publisher.setXY1(10.0, 1.0)
-        if (estate == 6 and (minimal_publisher.getPX() < 10.2 and minimal_publisher.getPX() >=10.0 and minimal_publisher.getPY() < 2.45 and minimal_publisher.getPY() >= 2.25)):
+            minimal_publisher.setXY1(8.0, 1.0)
+        if (estate == 6 and (minimal_publisher.getPX() < 8.1 and minimal_publisher.getPX() >=7.9 and minimal_publisher.getPY() < 1.1 and minimal_publisher.getPY() >= 0.9)):
             estate = 7
-            minimal_publisher.setXY1(10.0, 0.0)
+            minimal_publisher.setXY1(1.0, 1.0)
         if (estate == 7):
-            minimal_publisher.setXY1(10.0, 1.0)
-        if (estate == 7 and (minimal_publisher.getPX() < 10.8 and minimal_publisher.getPX() >=11.0 and minimal_publisher.getPY() < 1.2 and minimal_publisher.getPY() >= 1.0)):
+            minimal_publisher.setXY1(1.0, 1.0)
+        if (estate == 7 and (minimal_publisher.getPX() < 1.1 and minimal_publisher.getPX() >=0.9 and minimal_publisher.getPY() < 1.1 and minimal_publisher.getPY() >= 0.9)):
             estate = 8
-            minimal_publisher.setXY1(10.0, 1.0)
+            minimal_publisher.setXY1(2.75, 2.75)
         if (estate == 8):
-            minimal_publisher.setXY1(10.0, 1.0)
+            minimal_publisher.setXY1(2.75, 2.75)
+
+        if (estate == 8 and (
+                minimal_publisher.getPX() < 2.85 and minimal_publisher.getPX() >= 2.65 and minimal_publisher.getPY() < 2.85 and minimal_publisher.getPY() >= 2.65)):
+            estate = 9
+            minimal_publisher.setXY1(6.25, 2.75)
+        if (estate == 9):
+            minimal_publisher.setXY1(6.25, 2.75)
+
+        if (estate == 9 and (
+                minimal_publisher.getPX() < 6.35 and minimal_publisher.getPX() >= 6.15 and minimal_publisher.getPY() < 2.85 and minimal_publisher.getPY() >= 2.65)):
+            estate = 10
+            minimal_publisher.setXY1(2.75, 2.75)
+        if (estate == 10):
+            minimal_publisher.setXY1(2.75, 2.75)
+
+        if (estate == 10 and (
+                minimal_publisher.getPX() < 2.85 and minimal_publisher.getPX() >= 2.65 and minimal_publisher.getPY() < 2.85 and minimal_publisher.getPY() >= 2.65)):
+            estate = 11
+            minimal_publisher.setXY1(4.5, 1.0)
+        if (estate == 11):
+            minimal_publisher.setXY1(4.5, 1.0)
+
+        if (estate == 11 and (
+                minimal_publisher.getPX() < 4.6 and minimal_publisher.getPX() >= 4.4 and minimal_publisher.getPY() < 1.1 and minimal_publisher.getPY() >= 0.9)):
+            estate = 12
+
         print(estate)
         rclpy.spin_once(minimal_publisher)
 
